@@ -1,6 +1,6 @@
-import "server-only";
+import { Joke } from "@/server/types/joke";
 
-import { Joke } from "../types/joke";
+import "server-only";
 
 export default async function getJokeById(id: string) {
   const joke: Joke = await fetch(`https://api.chucknorris.io/jokes/${id}`, {

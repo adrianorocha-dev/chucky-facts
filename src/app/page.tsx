@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
-import getCategories from "@/server/data/get-categories";
-import getRandomJoke from "@/server/data/get-random-joke";
+import data from "@/server/data";
 import CategorySelector from "./_components/category-selector";
 import RevealButton from "./_components/reveal-button";
 
@@ -37,7 +36,7 @@ export default function Home({ searchParams }: PageProps) {
 }
 
 async function Categories() {
-  const categories = await getCategories();
+  const categories = await data.categories.list();
   return <CategorySelector categories={categories} />;
 }
 
@@ -52,7 +51,7 @@ function CategoriesSkeleton(props: { selected?: string }) {
 }
 
 async function JokeButton(props: { category?: string }) {
-  const joke = await getRandomJoke(props.category);
+  const joke = await data.jokes.getRandom(props.category);
 
   return <RevealButton>{joke.value}</RevealButton>;
 }

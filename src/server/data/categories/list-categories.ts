@@ -1,6 +1,6 @@
 import "server-only";
 
-export default async function getCategories() {
+export default async function listCategories() {
   const categories: string[] = await fetch(
     "https://api.chucknorris.io/jokes/categories",
     {

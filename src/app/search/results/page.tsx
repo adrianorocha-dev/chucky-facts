@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { searchJokes } from "@/server/data/search-jokes";
+import data from "@/server/data";
 import SearchInput from "../_components/search-input";
 
 type Props = {
@@ -15,7 +15,7 @@ export default async function SearchResultsPage({ searchParams }: Props) {
   }
 
   const queryStart = new Date().getTime();
-  const searchResult = await searchJokes(searchParams.q);
+  const searchResult = await data.jokes.search(searchParams.q);
   const queryEnd = new Date().getTime();
 
   const formattedDuration = formatDuration(queryEnd - queryStart);

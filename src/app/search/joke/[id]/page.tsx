@@ -1,4 +1,4 @@
-import getJokeById from "@/server/data/get-joke-by-id";
+import data from "@/server/data";
 
 type Props = {
   params: {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default async function JokePage({ params }: Props) {
-  const joke = await getJokeById(params.id);
+  const joke = await data.jokes.getById(params.id);
 
   return (
     <div className="flex flex-1 items-center justify-center px-8 py-6">

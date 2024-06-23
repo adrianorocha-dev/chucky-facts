@@ -1,6 +1,6 @@
-import "server-only";
+import { Joke } from "@/server/types/joke";
 
-import { Joke } from "../types/joke";
+import "server-only";
 
 export default async function getRandomJoke(category?: string) {
   const url = new URL("https://api.chucknorris.io/jokes/random");
