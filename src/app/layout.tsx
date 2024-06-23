@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/cn";
 import Link from "next/link";
 import NavBar from "./_components/navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,8 @@ export default function RootLayout({
         <NavBar />
 
         {children}
+
+        <Toaster />
       </body>
     </html>
   );

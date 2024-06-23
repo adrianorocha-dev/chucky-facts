@@ -1,3 +1,4 @@
+import { useToast } from "@/components/ui/use-toast";
 import { MicIcon, StopCircleIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -18,17 +19,13 @@ if (recognition) {
   recognition.interimResults = true;
   recognition.lang = "en-US";
   recognition.maxAlternatives = 1;
-
-  recognition.onerror = (event: any) => {
-    console.error("dictation error", event);
-  };
 }
 
 type Props = {
-  onDictation: (text: string) => void;
+  onDictationResult: (text: string) => void;
 };
 
-export default function DictationInput({ onDictation }: Props) {
+export default function DictationInput({ onDictationResult }: Props) {
   const [dictationSupported] = useState(() => {
     if (
       typeof window === "undefined" ||
@@ -40,6 +37,8 @@ export default function DictationInput({ onDictation }: Props) {
     }
   });
 
+  const { toast } = useToast();
+
   useEffect(() => {
     if (!recognition) {
       return;
@@ -50,7 +49,7 @@ export default function DictationInput({ onDictation }: Props) {
       const result = event.results[event.resultIndex];
       const text = result[0].transcript;
 
-      onDictation(text);
+      onDictationResult(text);
     };
 
     recognition.onstart = () => {
@@ -62,7 +61,18 @@ export default function DictationInput({ onDictation }: Props) {
       console.log("dictation ended");
       setIsDictating(false);
     };
-  }, [onDictation]);
+
+    recognition.onerror = (event: any) => {
+      console.error("dictation error", event);
+
+      toast({
+        title: "Text-to-speech error",
+        description:
+          "Something went wrong, please try again. If the problem persists, try a different browser.",
+        variant: "destructive",
+      });
+    };
+  }, [onDictationResult, toast]);
 
   const [isDictating, setIsDictating] = useState(false);
 

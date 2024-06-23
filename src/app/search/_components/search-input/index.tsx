@@ -33,7 +33,7 @@ export default function SearchInput({ defaultValue }: Props) {
       />
 
       <Suspense>
-        <DictationInput onDictation={handleDictationResult} />
+        <DictationInput onDictationResult={handleDictationResult} />
       </Suspense>
     </div>
   );
