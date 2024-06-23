@@ -1,3 +1,5 @@
+import getJokeById from "@/server/data/get-joke-by-id";
+
 type Props = {
   params: {
     id: string;
@@ -5,9 +7,7 @@ type Props = {
 };
 
 export default async function JokePage({ params }: Props) {
-  const joke = await fetch(`https://api.chucknorris.io/jokes/${params.id}`, {
-    cache: "no-cache",
-  }).then((res) => res.json());
+  const joke = await getJokeById(params.id);
 
   return (
     <div className="flex flex-1 items-center justify-center px-8 py-6">
