@@ -24,8 +24,8 @@ export default async function Home({ searchParams }: PageProps) {
   ).then((res) => res.json());
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-12 p-24">
-      <h1>Hello Chuck!</h1>
+    <div className="flex flex-1 flex-col items-center justify-center gap-12 p-24">
+      <h1>Select a category for your joke and click reveal</h1>
 
       <CategorySelector categories={categories} />
 
