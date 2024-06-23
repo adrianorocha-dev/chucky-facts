@@ -10,8 +10,10 @@ export default async function JokePage({ params }: Props) {
   }).then((res) => res.json());
 
   return (
-    <div className="flex flex-1 justify-center items-center px-24 py-6">
-      <p>{joke.value}</p>
+    <div className="flex flex-1 justify-center items-center px-8 py-6">
+      <div className="w-full max-w-lg">
+        <p>{joke.value}</p>
+      </div>
     </div>
   );
 }
