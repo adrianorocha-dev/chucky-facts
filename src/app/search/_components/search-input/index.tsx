@@ -1,8 +1,8 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
-import dynamic from "next/dynamic";
 import { Suspense, useCallback, useState } from "react";
+import dynamic from "next/dynamic";
+import { SearchIcon } from "lucide-react";
 
 const DictationInput = dynamic(() => import("./dictation"), {
   ssr: false,
@@ -20,7 +20,7 @@ export default function SearchInput({ defaultValue }: Props) {
   }, []);
 
   return (
-    <div className="focus-within:border-slate-600 focus-within:outline-1 focus-within:outline transition-all flex items-center gap-2 justify-between border border-slate-400 py-2 px-4 bg-white rounded-full w-full">
+    <div className="flex w-full items-center justify-between gap-2 rounded-full border border-slate-400 bg-white px-4 py-2 transition-all focus-within:border-slate-600 focus-within:outline focus-within:outline-1">
       <SearchIcon className="h-4 w-4" />
 
       <input

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
 import "./globals.css";
-import { cn } from "@/lib/cn";
+
 import Link from "next/link";
-import NavBar from "./_components/navbar";
+
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/cn";
+import NavBar from "./_components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("flex flex-col min-h-screen", inter.className)}>
+      <body className={cn("flex min-h-screen flex-col", inter.className)}>
         <NavBar />
 
         {children}
