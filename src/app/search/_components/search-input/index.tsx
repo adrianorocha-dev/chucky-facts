@@ -1,4 +1,7 @@
+"use client";
+
 import { SearchIcon } from "lucide-react";
+import DictationInput from "./dictation";
 
 type Props = {
   defaultValue?: string;
@@ -16,6 +19,8 @@ export default function SearchInput({ defaultValue }: Props) {
         required
         defaultValue={defaultValue}
       />
+
+      <DictationInput onDictation={(text) => console.log(text)} />
     </div>
   );
 }
