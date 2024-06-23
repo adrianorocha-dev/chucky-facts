@@ -1,16 +1,31 @@
-import { Joke } from "@/server/types/joke";
+import { gql } from "@/__generated__";
+import { getClient } from "@/server/apollo-client";
 
 import "server-only";
 
-export default async function getRandomJoke(category?: string) {
-  const url = new URL("https://api.chucknorris.io/jokes/random");
-  if (category) {
-    url.searchParams.set("category", category);
+const GET_RANDOM_JOKE_QUERY = gql(`
+  query GetRandomJoke($category: String) {
+    randomJoke(category: $category) {
+      id
+      value
+    }
   }
+`);
 
-  const joke: Joke = await fetch(url, {
-    cache: "no-cache",
-  }).then((res) => res.json());
+export default async function getRandomJoke(category?: string) {
+  const result = await getClient().query({
+    query: GET_RANDOM_JOKE_QUERY,
+    variables: {
+      category,
+    },
+    context: {
+      fetchOptions: {
+        cache: "force-cache",
+      },
+    },
+  });
+
+  const joke = result.data.randomJoke;
 
   return joke;
 }

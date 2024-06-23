@@ -1,17 +1,34 @@
-import { Joke } from "@/server/types/joke";
+import { gql } from "@/__generated__";
+import { getClient } from "@/server/apollo-client";
 
 import "server-only";
 
-type JokeSearchResult = {
-  total: number;
-  result: Joke[];
-};
+const SEARCH_JOKES_QUERY = gql(`
+  query SearchJokes($query: String!) {
+    searchJokes(query: $query) {
+      total
+      result {
+        id
+        value
+      }
+    }
+  }
+`);
 
 export default async function searchJokes(query: string) {
-  const searchResult: JokeSearchResult = await fetch(
-    `https://api.chucknorris.io/jokes/search?query=${query}`,
-    { cache: "force-cache" },
-  ).then((res) => res.json());
+  const result = await getClient().query({
+    query: SEARCH_JOKES_QUERY,
+    variables: {
+      query,
+    },
+    context: {
+      fetchOptions: {
+        cache: "force-cache",
+      },
+    },
+  });
+
+  const searchResult = result.data.searchJokes;
 
   return searchResult;
 }
