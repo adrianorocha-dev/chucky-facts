@@ -1,7 +1,11 @@
 "use client";
 
 import { SearchIcon } from "lucide-react";
-import DictationInput from "./dictation";
+import dynamic from "next/dynamic";
+
+const DictationInput = dynamic(() => import("./dictation"), {
+  ssr: false,
+});
 
 type Props = {
   defaultValue?: string;
