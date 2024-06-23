@@ -1,26 +1,24 @@
+import { notFound } from "next/navigation";
+
+import { searchJokes } from "@/server/data/search-jokes";
 import SearchInput from "../_components/search-input";
 
 type Props = {
   searchParams: {
-    q: string;
+    q?: string;
   };
 };
 
 export default async function SearchResultsPage({ searchParams }: Props) {
-  const queryStart = new Date().getTime();
-  const searchResult = await fetch(
-    `https://api.chucknorris.io/jokes/search?query=${searchParams.q}`,
-    { cache: "no-cache" },
-  ).then((res) => res.json());
-  const queryEnd = new Date().getTime();
-  const queryDuration = queryEnd - queryStart;
+  if (!searchParams.q) {
+    return notFound();
+  }
 
-  const formattedDuration =
-    queryDuration > 1000
-      ? `${(queryDuration / 1000).toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-        })} seconds`
-      : `${queryDuration} milliseconds`;
+  const queryStart = new Date().getTime();
+  const searchResult = await searchJokes(searchParams.q);
+  const queryEnd = new Date().getTime();
+
+  const formattedDuration = formatDuration(queryEnd - queryStart);
 
   return (
     <div className="flex flex-1 flex-col gap-6 px-8 py-4">
@@ -45,7 +43,7 @@ export default async function SearchResultsPage({ searchParams }: Props) {
           <p className="text-center text-lg">No results found</p>
         )}
 
-        {searchResult.result.map((joke: any) => (
+        {searchResult.result.map((joke) => (
           <div key={joke.id} className="flex flex-col gap-2">
             <p className="text-lg">{joke.value}</p>
           </div>
@@ -53,4 +51,14 @@ export default async function SearchResultsPage({ searchParams }: Props) {
       </div>
     </div>
   );
+}
+
+function formatDuration(duration: number) {
+  if (duration > 1000) {
+    return `${(duration / 1000).toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    })} seconds`;
+  }
+
+  return `${duration} milliseconds`;
 }
