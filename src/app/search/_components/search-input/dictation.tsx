@@ -1,43 +1,49 @@
-"use client";
+import { MicIcon, StopCircleIcon } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
-import { MicIcon } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+if (typeof window == "undefined") {
+  throw new Error("client only component");
+}
+
+const recognition =
+  "webkitSpeechRecognition" in window || "SpeechRecognition" in window
+    ? // @ts-ignore
+      new (window.SpeechRecognition ??
+        // @ts-ignore
+        window.webkitSpeechRecognition)()
+    : null;
+
+if (recognition) {
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-US";
+  recognition.maxAlternatives = 1;
+
+  recognition.onerror = (event: any) => {
+    console.error("dictation error", event);
+  };
+}
 
 type Props = {
   onDictation: (text: string) => void;
 };
 
 export default function DictationInput({ onDictation }: Props) {
-  const recognitionRef = useRef<any>(null);
-  const [dictationSupported, setDictationSupported] = useState(() => {
+  const [dictationSupported] = useState(() => {
     if (
       typeof window === "undefined" ||
       !("webkitSpeechRecognition" in window || "SpeechRecognition" in window)
     ) {
       return false;
+    } else {
+      return true;
     }
+  });
 
-    // @ts-ignore
-    const recognition = new (window.SpeechRecognition ??
-      // @ts-ignore
-      window.webkitSpeechRecognition)();
-
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = "en-US";
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => {
-      console.log("dictation started");
-    };
-
-    recognition.onerror = (event: any) => {
-      console.log("dictation error", event);
-    };
-
-    recognition.onend = () => {
-      console.log("dictation ended");
-    };
+  useEffect(() => {
+    if (!recognition) {
+      return;
+    }
 
     recognition.onresult = (event: any) => {
       console.log("dictation event", event);
@@ -47,25 +53,12 @@ export default function DictationInput({ onDictation }: Props) {
       onDictation(text);
     };
 
-    recognitionRef.current = recognition;
-
-    return true;
-  });
-
-  useEffect(() => {
-    if (!recognitionRef.current) {
-      return;
-    }
-
-    recognitionRef.current.onresult = (event: any) => {
-      console.log("dictation event", event);
-      const result = event.results[event.resultIndex];
-      const text = result[0].transcript;
-
-      onDictation(text);
+    recognition.onstart = () => {
+      console.log("dictation started");
+      setIsDictating(true);
     };
 
-    recognitionRef.current.onend = () => {
+    recognition.onend = () => {
       console.log("dictation ended");
       setIsDictating(false);
     };
@@ -74,16 +67,14 @@ export default function DictationInput({ onDictation }: Props) {
   const [isDictating, setIsDictating] = useState(false);
 
   const handleDictate = useCallback(() => {
-    if (!recognitionRef.current) {
+    if (!recognition) {
       return;
     }
 
     if (!isDictating) {
-      recognitionRef.current.start();
-      setIsDictating(true);
+      recognition.start();
     } else {
-      recognitionRef.current.stop();
-      setIsDictating(false);
+      recognition.stop();
     }
   }, [isDictating]);
 
@@ -93,8 +84,15 @@ export default function DictationInput({ onDictation }: Props) {
 
   return (
     <button type="button" onClick={handleDictate}>
-      <MicIcon className="h-4 w-4" />
-      <span className="sr-only">Dictate</span>
+      {isDictating ? (
+        <StopCircleIcon className="h-4 w-4 text-red-500" />
+      ) : (
+        <MicIcon className="h-4 w-4" />
+      )}
+
+      <span className="sr-only">
+        {isDictating ? "Stop dictation" : "Dictate"}
+      </span>
     </button>
   );
 }

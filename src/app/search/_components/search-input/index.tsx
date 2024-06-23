@@ -2,6 +2,7 @@
 
 import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useCallback, useState } from "react";
 
 const DictationInput = dynamic(() => import("./dictation"), {
   ssr: false,
@@ -12,6 +13,12 @@ type Props = {
 };
 
 export default function SearchInput({ defaultValue }: Props) {
+  const [value, setValue] = useState(defaultValue ?? "");
+
+  const handleDictationResult = useCallback((text: string) => {
+    setValue(text);
+  }, []);
+
   return (
     <div className="focus-within:border-slate-600 focus-within:outline-1 focus-within:outline transition-all flex items-center gap-2 justify-between border border-slate-400 py-2 px-4 bg-white rounded-full w-full">
       <SearchIcon className="h-4 w-4" />
@@ -21,10 +28,11 @@ export default function SearchInput({ defaultValue }: Props) {
         type="text"
         name="q"
         required
-        defaultValue={defaultValue}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
 
-      <DictationInput onDictation={(text) => console.log(text)} />
+      <DictationInput onDictation={handleDictationResult} />
     </div>
   );
 }
