@@ -1,8 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import { cn } from "@/lib/cn";
 
 type Props = {
   href: string;
@@ -18,8 +19,8 @@ export default function NavBarLink({ href, children, exact = false }: Props) {
   return (
     <Link
       className={cn(
-        "flex-1 p-2 border-b border-slate-800",
-        isActive && "bg-slate-800 text-white"
+        "flex-1 border-b border-slate-800 p-2",
+        isActive && "bg-slate-800 text-white",
       )}
       href={href}
     >

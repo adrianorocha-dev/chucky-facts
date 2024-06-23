@@ -10,7 +10,7 @@ export default async function SearchResultsPage({ searchParams }: Props) {
   const queryStart = new Date().getTime();
   const searchResult = await fetch(
     `https://api.chucknorris.io/jokes/search?query=${searchParams.q}`,
-    { cache: "no-cache" }
+    { cache: "no-cache" },
   ).then((res) => res.json());
   const queryEnd = new Date().getTime();
   const queryDuration = queryEnd - queryStart;
@@ -29,7 +29,7 @@ export default async function SearchResultsPage({ searchParams }: Props) {
       <form className="flex w-full gap-4" action="/search/results" method="GET">
         <SearchInput defaultValue={searchParams.q} />
 
-        <button className="border border-slate-400 py-2 px-4 bg-white rounded-full">
+        <button className="rounded-full border border-slate-400 bg-white px-4 py-2">
           Search
         </button>
       </form>

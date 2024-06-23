@@ -1,6 +1,7 @@
-import { useToast } from "@/components/ui/use-toast";
-import { MicIcon, StopCircleIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { MicIcon, StopCircleIcon } from "lucide-react";
+
+import { useToast } from "@/components/ui/use-toast";
 
 if (typeof window == "undefined") {
   throw new Error("client only component");

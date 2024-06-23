@@ -1,9 +1,10 @@
 "use client";
 
-import Button from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { showDifferentJoke } from "../actions";
 import { useSearchParams } from "next/navigation";
+
+import Button from "@/components/ui/button";
+import { showDifferentJoke } from "../actions";
 
 type Props = {
   children: React.ReactNode;

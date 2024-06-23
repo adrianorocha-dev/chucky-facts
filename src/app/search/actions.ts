@@ -7,7 +7,7 @@ export const feelingLuckyAction = async (formData: FormData) => {
   const query = formData.get("q") as string;
   const searchResult = await fetch(
     `https://api.chucknorris.io/jokes/search?query=${query}`,
-    { cache: "no-cache" }
+    { cache: "no-cache" },
   ).then((res) => res.json());
 
   if (searchResult.result.length === 0) {

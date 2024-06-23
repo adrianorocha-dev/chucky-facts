@@ -1,5 +1,6 @@
-import { cn } from "@/lib/cn";
 import { ComponentPropsWithoutRef, forwardRef } from "react";
+
+import { cn } from "@/lib/cn";
 
 type ButtonProps = ComponentPropsWithoutRef<"button">;
 
@@ -8,14 +9,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       className={cn(
-        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded font-sans",
-        className
+        "rounded bg-blue-500 px-4 py-2 font-sans font-bold text-white hover:bg-blue-700",
+        className,
       )}
       {...props}
     >
       {children}
     </button>
-  )
+  ),
 );
 
 Button.displayName = "Button";
