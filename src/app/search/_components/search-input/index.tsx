@@ -2,7 +2,7 @@
 
 import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useCallback, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 
 const DictationInput = dynamic(() => import("./dictation"), {
   ssr: false,
@@ -32,7 +32,9 @@ export default function SearchInput({ defaultValue }: Props) {
         onChange={(e) => setValue(e.target.value)}
       />
 
-      <DictationInput onDictation={handleDictationResult} />
+      <Suspense>
+        <DictationInput onDictation={handleDictationResult} />
+      </Suspense>
     </div>
   );
 }
