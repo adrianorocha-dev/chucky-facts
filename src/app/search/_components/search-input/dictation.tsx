@@ -9,13 +9,12 @@ type Props = {
 
 export default function DictationInput({ onDictation }: Props) {
   const recognitionRef = useRef<any>(null);
-
-  useEffect(() => {
+  const [dictationSupported, setDictationSupported] = useState(() => {
     if (
       typeof window === "undefined" ||
       !("webkitSpeechRecognition" in window || "SpeechRecognition" in window)
     ) {
-      return;
+      return false;
     }
 
     // @ts-ignore
@@ -49,6 +48,22 @@ export default function DictationInput({ onDictation }: Props) {
     };
 
     recognitionRef.current = recognition;
+
+    return true;
+  });
+
+  useEffect(() => {
+    if (!recognitionRef.current) {
+      return;
+    }
+
+    recognitionRef.current.onresult = (event: any) => {
+      console.log("dictation event", event);
+      const result = event.results[event.resultIndex];
+      const text = result[0].transcript;
+
+      onDictation(text);
+    };
   }, [onDictation]);
 
   const [isDictating, setIsDictating] = useState(false);
@@ -67,7 +82,7 @@ export default function DictationInput({ onDictation }: Props) {
     }
   }, [isDictating]);
 
-  if (!recognitionRef.current) {
+  if (!dictationSupported) {
     return null;
   }
 
