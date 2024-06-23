@@ -64,6 +64,11 @@ export default function DictationInput({ onDictation }: Props) {
 
       onDictation(text);
     };
+
+    recognitionRef.current.onend = () => {
+      console.log("dictation ended");
+      setIsDictating(false);
+    };
   }, [onDictation]);
 
   const [isDictating, setIsDictating] = useState(false);
