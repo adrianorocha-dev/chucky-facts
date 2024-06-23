@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
+    "postinstall": "bun run codegen",
     "codegen": "graphql-codegen --config codegen.ts",
     "codegen:watch": "graphql-codegen --config codegen.ts --watch",
     "typecheck": "tsc --noEmit"
