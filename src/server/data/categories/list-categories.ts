@@ -4,7 +4,7 @@ export default async function listCategories() {
   const categories: string[] = await fetch(
     "https://api.chucknorris.io/jokes/categories",
     {
-      cache: "no-cache",
+      cache: "force-cache",
     },
   ).then((res) => res.json());
 
