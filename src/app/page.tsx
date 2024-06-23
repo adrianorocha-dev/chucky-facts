@@ -9,7 +9,9 @@ type PageProps = {
 
 export default async function Home({ searchParams }: PageProps) {
   const url = new URL("https://api.chucknorris.io/jokes/random");
-  url.searchParams.set("category", searchParams.category);
+  if (searchParams.category) {
+    url.searchParams.set("category", searchParams.category);
+  }
 
   console.log(url.toString());
   const joke = await fetch(url, {
@@ -24,12 +26,14 @@ export default async function Home({ searchParams }: PageProps) {
   ).then((res) => res.json());
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-12 p-24">
-      <h1>Select a category for your joke and click reveal</h1>
+    <div className="flex flex-1 flex-col items-center justify-center p-24">
+      <div className="flex w-full max-w-sm items-center flex-col gap-6">
+        <h1>Select a category for your joke and click reveal</h1>
 
-      <CategorySelector categories={categories} />
+        <CategorySelector categories={categories} />
 
-      <RevealButton>{joke.value}</RevealButton>
+        <RevealButton>{joke.value}</RevealButton>
+      </div>
     </div>
   );
 }

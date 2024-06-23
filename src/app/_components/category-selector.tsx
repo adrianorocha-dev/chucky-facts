@@ -24,7 +24,13 @@ export default function CategorySelector({ categories }: Props) {
   const handleChange = useCallback(
     (category: string) => {
       const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.set("category", category);
+
+      if (category === "all") {
+        newSearchParams.delete("category");
+      } else {
+        newSearchParams.set("category", category);
+      }
+
       router.push(`${pathname}?${newSearchParams.toString()}`);
     },
     [pathname, router, searchParams]
@@ -37,6 +43,10 @@ export default function CategorySelector({ categories }: Props) {
       </SelectTrigger>
 
       <SelectContent>
+        <SelectItem value="all" className="capitalize">
+          All
+        </SelectItem>
+
         {categories.map((category) => (
           <SelectItem key={category} value={category} className="capitalize">
             {category}
