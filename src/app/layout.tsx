@@ -19,9 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn("flex flex-col min-h-screen gap-12", inter.className)}
-      >
+      <body className={cn("flex flex-col min-h-screen", inter.className)}>
         <NavBar />
 
         {children}

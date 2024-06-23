@@ -4,22 +4,22 @@ import { cn } from "@/lib/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function NavBarLink({
-  href,
-  children,
-}: {
+type Props = {
   href: string;
   children: React.ReactNode;
-}) {
+  exact?: boolean;
+};
+
+export default function NavBarLink({ href, children, exact = false }: Props) {
   const pathname = usePathname();
 
-  console.log({ pathname, href });
+  const isActive = exact ? pathname === href : pathname.startsWith(href);
 
   return (
     <Link
       className={cn(
         "flex-1 p-2 border-b border-slate-800",
-        pathname === href && "bg-slate-800 text-white"
+        isActive && "bg-slate-800 text-white"
       )}
       href={href}
     >
