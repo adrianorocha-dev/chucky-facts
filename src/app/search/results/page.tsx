@@ -23,7 +23,7 @@ export default async function SearchResultsPage({ searchParams }: Props) {
       : `${queryDuration} milliseconds`;
 
   return (
-    <div className="flex flex-1 flex-col gap-6 px-24 py-6">
+    <div className="flex flex-1 flex-col gap-6 px-8 py-4">
       <h1>Search Results</h1>
 
       <form className="flex w-full gap-4" action="/search/results" method="GET">

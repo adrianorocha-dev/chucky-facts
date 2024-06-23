@@ -5,7 +5,7 @@ import { feelingLuckyAction } from "./actions";
 
 export default function SearchPage() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-12 p-24">
+    <div className="flex flex-1 flex-col items-center justify-center gap-12 py-12 px-8">
       <h1>Chuck Norris Jokes Search</h1>
 
       <form
