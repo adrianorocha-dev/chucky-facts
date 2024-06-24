@@ -38,17 +38,19 @@ export default async function SearchResultsPage({ searchParams }: Props) {
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col gap-4">
+      <ul className="flex flex-1 flex-col gap-4">
         {searchResult.result.length === 0 && (
-          <p className="text-center text-lg">No results found</p>
+          <li>
+            <p className="text-center text-lg">No results found</p>
+          </li>
         )}
 
         {searchResult.result.map((joke) => (
-          <div key={joke.id} className="flex flex-col gap-2">
+          <li key={joke.id} className="flex flex-col gap-2">
             <p className="text-lg">{joke.value}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
