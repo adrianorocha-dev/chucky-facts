@@ -21,7 +21,7 @@ export default function RevealButton({ children }: Props) {
 
   return (
     <>
-      {show && children}
+      {show && <p id="random-joke">{children}</p>}
 
       {!show ? (
         <Button onClick={() => setShow((val) => !val)}>Reveal</Button>
