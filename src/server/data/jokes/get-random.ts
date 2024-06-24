@@ -20,7 +20,7 @@ export default async function getRandomJoke(category?: string) {
     },
     context: {
       fetchOptions: {
-        cache: "force-cache",
+        cache: "no-cache",
       },
     },
   });
